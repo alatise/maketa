@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Products } from "./components/productData";
+import { LightboxGallery } from "./components/lightbox";
 
 function AppMaketa() {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  const openLightbox = () => {
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+  };
+
   return (
     <div className="px-36 py-8">
       <div className=" flex justify-between items-center">
         <div className="flex items-center">
           <img src={process.env.PUBLIC_URL + "/assets/logo.svg"} alt="Logo" />
-          <nav className="flex ml-12 text-[#BABCC4] gap-6">
+          <nav className="flex ml-14 text-[#BABCC4] gap-7">
             <p className="">Collections</p>
             <p className="">Men</p>
             <p className="">Women</p>
@@ -30,21 +41,21 @@ function AppMaketa() {
           </div>
         </div>
       </div>
-      <div className="border border-b-[#BABCC4] mt-8"></div>
-      <main className="px-8 mt-20 flex gap-10">
+      <div className="border border-b-[#E8E5E0] mt-8"></div>
+      <main className="px-8 mt-20 flex gap-24">
         <section className="flex w-1/2 ">
-          {Products.map((product, index) => (
-            <div key={index}>
-              <div>
-                <img src={product.original} alt={`Product ${index + 1}`} />
-              </div>
-              <div>
-                <img src={product.thumbnail} alt={`Product ${index + 1}`} />
-              </div>
-            </div>
-          ))}
+          <div onClick={openLightbox} className="cursor-pointer rounded-lg">
+            <img src={Products[0].original} alt="Product 1" />
+          </div>
+          {lightboxOpen && (
+            <LightboxGallery
+              images={Products}
+              currentIndex={0}
+              onCloseRequest={closeLightbox}
+            />
+          )}
         </section>
-        <section>
+        <section className="w-1/2">
           <p>Sneaker Company</p>
           <p className="text-xl">Fall Limited Edition Sneakers</p>
           <article className="text-sm">
