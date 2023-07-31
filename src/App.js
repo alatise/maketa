@@ -42,19 +42,28 @@ function AppMaketa() {
         </div>
       </div>
       <div className="border border-b-[#E8E5E0] mt-8"></div>
-      <main className="px-8 mt-20 flex gap-24">
-        <section className="flex w-1/2 ">
-          <div onClick={openLightbox} className="cursor-pointer rounded-lg">
-            <img src={Products[0].original} alt="Product 1" />
+      <main className="px-8 mt-20 flex ">
+        <section className="flex w-1/2 flex-col ">
+          <div className="w-4/5">
+            <div onClick={openLightbox} className="cursor-pointer">
+              <img
+                src={Products[0].original}
+                alt="Product 1"
+                className="rounded-xl"
+                onClick={() => openLightbox()}
+              />
+            </div>
+            <div className="mt-6">
+              <LightboxGallery
+                images={Products}
+                currentIndex={0}
+                onCloseRequest={closeLightbox}
+                className=""
+              />
+            </div>
           </div>
-          {lightboxOpen && (
-            <LightboxGallery
-              images={Products}
-              currentIndex={0}
-              onCloseRequest={closeLightbox}
-            />
-          )}
         </section>
+
         <section className="w-1/2">
           <p>Sneaker Company</p>
           <p className="text-xl">Fall Limited Edition Sneakers</p>
@@ -79,11 +88,11 @@ function AppMaketa() {
 
 export default AppMaketa;
 
-// Your users should be able to:
+// {/* // Your users should be able to:
 
-// - View the optimal layout for the site depending on their device's screen size
-// - See hover states for all interactive elements on the page
-// - Open a lightbox gallery by clicking on the large product image
-// - Switch the large product image by clicking on the small thumbnail images
-// - Add items to the cart
-// - View the cart and remove items from it
+// // - View the optimal layout for the site depending on their device's screen size
+// // - See hover states for all interactive elements on the page
+// // - Open a lightbox gallery by clicking on the large product image
+// // - Switch the large product image by clicking on the small thumbnail images
+// // - Add items to the cart
+// // - View the cart and remove items from it */}
