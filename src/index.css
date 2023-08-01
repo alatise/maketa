@@ -9,3 +9,12 @@ body {
 .open-lightbox {
   width: 30%;
 }
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.btn-cart {
+  padding-right: 4.5rem;
+  padding-left: 4.5rem;
+}

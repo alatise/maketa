@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { FaAngleLeft, FaAngleRight, FaTimes } from "react-icons/fa";
 import "../index.css";
 
-const LightboxGallery = ({ images }) => {
-  const [lightboxIndex, setLightboxIndex] = useState(0);
+const LightboxGallery = ({ images, currentIndex, onCloseRequest }) => {
+  const [lightboxIndex, setLightboxIndex] = useState(currentIndex);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 
   const openLightbox = (index) => {
@@ -51,26 +51,26 @@ const LightboxGallery = ({ images }) => {
                 className="absolute -top-8 right-0 text-white hover:text-[#CE651B] cursor-pointer"
                 onClick={closeLightbox}
               />
-              <div className="bg-white w-8 h-8 rounded-full absolute top-1/2 left-0 flex items-center justify-center ">
+              <span className="bg-white w-9 h-9 rounded-full absolute top-1/2 -left-4 flex items-center justify-center ">
                 <FaAngleLeft
                   size={16}
                   className="text-[#9EA0A1] hover:text-[#CE651B] cursor-pointer  "
                   onClick={prevImage}
                 />
-              </div>
+              </span>
 
               <img
                 src={images[lightboxIndex].original}
                 alt={`Product ${lightboxIndex + 1}`}
                 className="rounded-lg"
               />
-              <div className=" bg-white w-8 h-8 rounded-full absolute top-1/2 right-0 flex items-center justify-center">
+              <span className=" bg-white w-9 h-9 rounded-full absolute top-1/2 -right-4 flex items-center justify-center">
                 <FaAngleRight
                   size={16}
                   className="text-[#9EA0A1] hover:text-[#CE651B] cursor-pointer "
                   onClick={nextImage}
                 />
-              </div>
+              </span>
             </div>
 
             <div className="flex justify-center items-center mt-6">
