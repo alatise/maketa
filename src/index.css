@@ -18,3 +18,10 @@ body {
   padding-right: 4.5rem;
   padding-left: 4.5rem;
 }
+
+.active,
+.hover\:not-active:hover {
+  /* position: absolute; */
+  border-bottom-width: 0.125rem;
+  border-bottom-color: #f08119;
+}
