@@ -3,7 +3,7 @@ import { Products } from "./components/productData";
 import { LightboxGallery } from "./components/lightbox";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { BsCart2 } from "react-icons/bs";
-import { CartModal } from "./components/cartModal";
+import CartModal from "./components/cartModal";
 
 function AppMaketa() {
   const [isActiveNav, setIsActiveNav] = useState("women");
@@ -12,10 +12,12 @@ function AppMaketa() {
     setIsActiveNav(value);
   };
 
-  const [isCartModal, setIsCartModal] = useState(false);
+  const [cartModal, setCartModal] = useState(false);
+  const [showItemCount, setShowItemCount] = useState(false);
 
-  const openCartModal = () => {
-    setIsCartModal(true);
+  const toggleCartModal = () => {
+    setCartModal(!cartModal);
+    setShowItemCount(false);
   };
 
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -31,13 +33,25 @@ function AppMaketa() {
     setLightboxOpen(false);
   };
 
+  const [count, setCount] = useState(0);
+
+  const decreaseCount = () => {
+    if (count > 0) {
+      setCount((prevCount) => prevCount - 1);
+    }
+  };
+
+  const increaseCount = () => {
+    setCount((prevCount) => prevCount + 1);
+    setShowItemCount(true);
+  };
+
   return (
     <div className="w-full px-36 py-8 mt-">
-      <CartModal />
-      <div className="flex justify-between items-center relative">
-        <div className="flex items-center relative">
+      <div className="flex justify-between items-center ">
+        <div className="flex items-center ">
           <img src={process.env.PUBLIC_URL + "/assets/logo.svg"} alt="Logo" />
-          <nav className="flex ml-14 text-[#BABCC4] gap-7 relative z-10">
+          <nav className="flex ml-14 text-[#BABCC4] gap-7 ">
             <button
               className={`${
                 isActiveNav === "collections" ? "active" : "hover:not-active"
@@ -84,10 +98,16 @@ function AppMaketa() {
           <img
             src={process.env.PUBLIC_URL + "/assets/icon-cart.svg"}
             alt="Cart"
-            className={isCartModal}
-            onClick={() => openCartModal()}
+            className="cursor-pointer"
+            onClick={toggleCartModal}
           />
-          <div className="rounded-full border border-[#CE651B] relative z-1">
+          {showItemCount && (
+            <div className="absolute top-9 right-56 bg-[#f08119] text-white rounded-lg flex justify-center items-center text-xs px-2">
+              {count}
+            </div>
+          )}
+          {cartModal && <CartModal onClose={() => setCartModal(false)} />}
+          <div className="rounded-full border hover:border-[#CE651B] relative">
             <img
               src={process.env.PUBLIC_URL + "/assets/images/image-avatar.png"}
               alt="Avatar"
@@ -96,7 +116,7 @@ function AppMaketa() {
           </div>
         </div>
       </div>
-      <div className="border border-b-[#E8E5E0] mt-8"></div>
+      <hr className="border border-b-[#E8E5E0] mt-8"></hr>
 
       <main className="px-8 mt-20 flex ">
         {isActiveNav === "collections" && <>coming soon</>}
@@ -153,11 +173,17 @@ function AppMaketa() {
 
                 <div className="flex gap-4">
                   <div className="bg-[#f2f8f8] flex gap-8 rounded-lg py-3 px-4 justify-center items-center">
-                    <FaMinus className="text-[#f08119]" />
-                    <p className="font-semibold">0</p>
-                    <FaPlus className="text-[#f08119]" />
+                    <FaMinus
+                      className="text-[#f08119] cursor-pointer"
+                      onClick={decreaseCount}
+                    />
+                    <p className="font-semibold text-align w-1">{count}</p>
+                    <FaPlus
+                      className="text-[#f08119] cursor-pointer"
+                      onClick={increaseCount}
+                    />
                   </div>
-                  <button className="text-white text-sm font-semibold bg-[#f08119] btn-cart py-3 flex gap-4 rounded-xl">
+                  <button className="text-white text-sm font-semibold bg-[#f08119] btn-cart py-3 flex gap-4 rounded-lg">
                     {" "}
                     <span>
                       <BsCart2 size={18} className="text-white" />
