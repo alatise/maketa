@@ -26,3 +26,8 @@ body {
   border-bottom-color: #f08119;
   /* padding-bottom: 2.7rem; */
 }
+
+.mobile-count {
+  top: 1.3rem;
+  right: 4.2rem;
+}

@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { Products } from "./components/productData";
 import { LightboxGallery } from "./components/lightbox";
-import { FaMinus, FaPlus } from "react-icons/fa";
+import { FaBars, FaMinus, FaPlus, FaTimes } from "react-icons/fa";
 import { BsCart2 } from "react-icons/bs";
 import CartModal from "./components/cartModal";
 
 function AppMaketa() {
+  const [isNavModal, setIsNavModal] = useState(false);
   const [isActiveNav, setIsActiveNav] = useState("women");
 
   const toggleNav = (value) => {
     setIsActiveNav(value);
+    setIsNavModal(false);
   };
 
   const [cartModal, setCartModal] = useState(false);
@@ -17,7 +19,7 @@ function AppMaketa() {
 
   const toggleCartModal = () => {
     setCartModal(!cartModal);
-    setShowItemCount(false);
+    setShowItemCount(true);
   };
 
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -47,11 +49,19 @@ function AppMaketa() {
   };
 
   return (
-    <div className="w-full px-36 py-8 mt-">
-      <div className="flex justify-between items-center ">
-        <div className="flex items-center ">
-          <img src={process.env.PUBLIC_URL + "/assets/logo.svg"} alt="Logo" />
-          <nav className="flex ml-14 text-[#BABCC4] gap-7 ">
+    <div className="w-full md:px-36 md:py-8 ">
+      <div className="flex justify-between items-center px-7 mt-6 md:px-0 md:mt-0 ">
+        <div className="flex items-center  ">
+          <div className="flex  gap-4">
+            <FaBars
+              size={20}
+              className="text-[#838282]  md:hidden"
+              onClick={() => setIsNavModal(true)}
+            />
+            <img src={process.env.PUBLIC_URL + "/assets/logo.svg"} alt="Logo" />
+          </div>
+
+          <nav className="hidden md:flex ml-14 text-[#BABCC4] gap-7 ">
             <button
               className={`${
                 isActiveNav === "collections" ? "active" : "hover:not-active"
@@ -93,8 +103,52 @@ function AppMaketa() {
               Contacts
             </button>
           </nav>
+
+          {isNavModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
+              <div className="bg-white w-2/3 h-full p-6 relative">
+                <FaTimes
+                  size={20}
+                  className="absolute top-0 left-0 mt-4 mb-8 ml-4 cursor-pointer"
+                  onClick={() => setIsNavModal(false)}
+                />
+                <nav className="flex flex-col text-[#BABCC4] gap-7 ">
+                  <button
+                    className={`${isActiveNav === "collections" ? "" : ""}`}
+                    onClick={() => toggleNav("collections")}
+                  >
+                    Collections
+                  </button>
+                  <button
+                    className={`${isActiveNav === "men" ? "" : ""}`}
+                    onClick={() => toggleNav("men")}
+                  >
+                    Men
+                  </button>
+                  <button
+                    className={`${isActiveNav === "women" ? "" : ""}`}
+                    onClick={() => toggleNav("women")}
+                  >
+                    Women
+                  </button>
+                  <button
+                    className={`${isActiveNav === "about" ? "" : ""}`}
+                    onClick={() => toggleNav("about")}
+                  >
+                    About
+                  </button>
+                  <button
+                    className={`${isActiveNav === "contacts" ? "" : ""}`}
+                    onClick={() => toggleNav("contacts")}
+                  >
+                    Contacts
+                  </button>
+                </nav>
+              </div>
+            </div>
+          )}
         </div>
-        <div className="flex gap-10 items-center">
+        <div className="flex gap-5 md:gap-10 items-center">
           <img
             src={process.env.PUBLIC_URL + "/assets/icon-cart.svg"}
             alt="Cart"
@@ -102,77 +156,88 @@ function AppMaketa() {
             onClick={toggleCartModal}
           />
           {showItemCount && (
-            <div className="absolute top-9 right-56 bg-[#f08119] text-white rounded-lg flex justify-center items-center text-xs px-2">
+            <div className="absolute mobile-count  md:top-9 md:right-56 bg-[#f08119] text-white rounded-lg flex justify-center items-center text-xs px-2">
               {count}
             </div>
           )}
-          {cartModal && <CartModal onClose={() => setCartModal(false)} />}
+          {cartModal && (
+            <CartModal onClose={() => setCartModal(false)} className="" />
+          )}
           <div className="rounded-full border hover:border-[#CE651B] relative">
             <img
               src={process.env.PUBLIC_URL + "/assets/images/image-avatar.png"}
               alt="Avatar"
-              className="w-11 h-11 rounded-full"
+              className="w-7 h-7 md:w-11 md:h-11 rounded-full cursor-pointer"
             />
           </div>
         </div>
       </div>
-      <hr className="border border-b-[#E8E5E0] mt-8"></hr>
+      <hr className="border border-b-[#E8E5E0] mt-8 hidden md:block"></hr>
 
-      <main className="px-8 mt-20 flex ">
-        {isActiveNav === "collections" && <>coming soon</>}
-        {isActiveNav === "men" && <>coming soon</>}
+      <main className="px-0 md:px-8 mt-20 flex flex-col md:flex-row ">
+        {isActiveNav === "collections" && <>Collections coming soon</>}
+        {isActiveNav === "men" && <>Men coming soon</>}
         {isActiveNav === "women" && (
           <>
-            <section className="flex w-1/2 flex-col ">
-              <div className="w-4/5">
+            <section className="flex w-full md:w-1/2 flex-col ">
+              <div className="w-full md:w-4/5">
                 <div className="cursor-pointer" onClick={() => openLightbox(0)}>
                   <img
                     src={Products[0].original}
                     alt="Product 1"
                     className="rounded-lg"
+                    openLightbox={openLightbox}
                   />
                 </div>
-                <div className="mt-6">
+                <div className="mt-6 hidden md:block">
                   <LightboxGallery
                     images={Products}
                     currentIndex={0}
                     onCloseRequest={closeLightbox}
-                    // openLightbox={openLightbox}
+                    openLightbox={openLightbox}
                     className=""
                   />
                 </div>
               </div>
             </section>
 
-            <section className="w-1/2">
+            <section className="w-full px-8 md:px-0 md:w-1/2">
               <div className=" py-16">
                 <p className="text-[#f5953b] text-xs font-semibold">
                   SNEAKER COMPANY
                 </p>
-                <p className="text-4xl  font-bold mt-6 mb-8">
-                  Fall Limited Edition <br /> Sneakers
+                <p className="text-3xl md:text-4xl  font-bold mt-6 mb-8">
+                  Fall Limited Edition <br className="hidden md:block" />{" "}
+                  Sneakers
                 </p>
                 <article className="text-sm text-[#9EA0A1] font-medium mb-6">
-                  These low-profile sneakers are your perfect casual wear <br />{" "}
-                  companion. Featuring a durable rubber outer sole, they’ll{" "}
-                  <br /> withstand everything the weather can offer.
+                  These low-profile sneakers are your perfect casual wear{" "}
+                  <br className="hidden md:block" /> companion. Featuring a
+                  durable rubber outer sole, they’ll{" "}
+                  <br className="hidden md:block" /> withstand everything the
+                  weather can offer.
                 </article>
-                <div className="flex gap-6 items-center">
-                  <p className="text-xl font-bold flex items-center">$125.00</p>
-                  <span className="bg-[#f0dec0] px-2 py-0.5 rounded-md flex justify-center items-center">
-                    <p className="text-[#f5953b] text-center text-xs font-semibold">
-                      50%
+                <div className="flex md:flex-col justify-between md:mb-0">
+                  <div className="flex gap-6 items-center">
+                    <p className="text-xl font-bold flex items-center">
+                      $125.00
                     </p>
-                  </span>
+                    <span className="bg-[#f0dec0] px-2 py-0.5 rounded-md flex justify-center items-center">
+                      <p className="text-[#f5953b] text-center text-xs font-semibold">
+                        50%
+                      </p>
+                    </span>
+                  </div>
+                  <div className=" ">
+                    <p className="relative md:mt-3 md:mb-6 text-[#9EA0A1] text-sm font-semibold ">
+                      $250.00
+                      <span className="absolute left-0 right-0 h-px w-12 bg-[#9EA0A1] bottom-1/2 block after:block content"></span>
+                    </p>
+                  </div>
                 </div>
 
-                <p className="relative mt-3 mb-6 text-[#9EA0A1] text-sm font-semibold">
-                  $250.00
-                  <span className="absolute left-0 right-0 h-px w-12 bg-[#9EA0A1] bottom-1/2 block after:block content"></span>
-                </p>
-
-                <div className="flex gap-4">
-                  <div className="bg-[#f2f8f8] flex gap-8 rounded-lg py-3 px-4 justify-center items-center">
+                <div className="flex flex-col md:flex-row gap-4">
+                  <div className="bg-[#f2f8f8] flex gap-8 rounded-lg py-4 md:py-3 px-4 justify-between my-4 md:my-0 md:justify-center items-center">
                     <FaMinus
                       className="text-[#f08119] cursor-pointer"
                       onClick={decreaseCount}
@@ -183,7 +248,7 @@ function AppMaketa() {
                       onClick={increaseCount}
                     />
                   </div>
-                  <button className="text-white text-sm font-semibold bg-[#f08119] btn-cart py-3 flex gap-4 rounded-lg">
+                  <button className="text-white text-sm font-semibold bg-[#f08119] md:btn-cart px-24 py-5 md:py-3 flex gap-4 rounded-lg">
                     {" "}
                     <span>
                       <BsCart2 size={18} className="text-white" />
@@ -195,8 +260,8 @@ function AppMaketa() {
             </section>
           </>
         )}
-        {isActiveNav === "about" && <>About Us</>}
-        {isActiveNav === "contacts" && <>Contact Us</>}
+        {isActiveNav === "about" && <>About Us comming soon</>}
+        {isActiveNav === "contacts" && <>Contact Us coming soon</>}
       </main>
     </div>
   );
