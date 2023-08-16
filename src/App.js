@@ -105,14 +105,14 @@ function AppMaketa() {
           </nav>
 
           {isNavModal && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
-              <div className="bg-white w-2/3 h-full p-6 relative">
+            <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex ">
+              <div className="bg-white w-2/3 h-full pt-24 relative">
                 <FaTimes
                   size={20}
-                  className="absolute top-0 left-0 mt-4 mb-8 ml-4 cursor-pointer"
+                  className="absolute top-6 left-8  cursor-pointer text-[#818288c5]"
                   onClick={() => setIsNavModal(false)}
                 />
-                <nav className="flex flex-col text-[#BABCC4] gap-7 ">
+                <nav className="flex flex-col gap-5 items-start px-8 font-bold text-lg ">
                   <button
                     className={`${isActiveNav === "collections" ? "" : ""}`}
                     onClick={() => toggleNav("collections")}
