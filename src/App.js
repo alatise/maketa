@@ -24,11 +24,12 @@ function AppMaketa() {
 
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   const openLightbox = (index) => {
     setLightboxIndex(index);
-
     setLightboxOpen(true);
+    setSelectedImageIndex(index);
   };
 
   const closeLightbox = () => {
@@ -112,33 +113,43 @@ function AppMaketa() {
                   className="absolute top-6 left-8  cursor-pointer text-[#818288c5]"
                   onClick={() => setIsNavModal(false)}
                 />
-                <nav className="flex flex-col gap-5 items-start px-8 font-bold text-lg ">
+                <nav className="flex flex-col gap-5 items-start px-8 font-semibold text-xl  ">
                   <button
-                    className={`${isActiveNav === "collections" ? "" : ""}`}
+                    className={`${
+                      isActiveNav === "collections" ? "text-[#CE651B]" : ""
+                    }`}
                     onClick={() => toggleNav("collections")}
                   >
                     Collections
                   </button>
                   <button
-                    className={`${isActiveNav === "men" ? "" : ""}`}
+                    className={`${
+                      isActiveNav === "men" ? "text-[#CE651B]" : ""
+                    }`}
                     onClick={() => toggleNav("men")}
                   >
                     Men
                   </button>
                   <button
-                    className={`${isActiveNav === "women" ? "" : ""}`}
+                    className={`${
+                      isActiveNav === "women" ? "text-[#CE651B]" : ""
+                    }`}
                     onClick={() => toggleNav("women")}
                   >
                     Women
                   </button>
                   <button
-                    className={`${isActiveNav === "about" ? "" : ""}`}
+                    className={`${
+                      isActiveNav === "about" ? "text-[#CE651B]" : ""
+                    }`}
                     onClick={() => toggleNav("about")}
                   >
                     About
                   </button>
                   <button
-                    className={`${isActiveNav === "contacts" ? "" : ""}`}
+                    className={`${
+                      isActiveNav === "contacts" ? "text-[#CE651B]" : ""
+                    }`}
                     onClick={() => toggleNav("contacts")}
                   >
                     Contacts
@@ -181,20 +192,28 @@ function AppMaketa() {
           <>
             <section className="flex w-full md:w-1/2 flex-col ">
               <div className="w-full md:w-4/5">
-                <div className="cursor-pointer" onClick={() => openLightbox(0)}>
+                <div
+                  className="cursor-pointer"
+                  // onClick={() => openLightbox(selectedImageIndex)}
+                >
                   <img
-                    src={Products[0].original}
+                    src={Products[selectedImageIndex].original}
                     alt="Product 1"
                     className="rounded-lg"
-                    openLightbox={openLightbox}
+                    onClick={() => {
+                      openLightbox(selectedImageIndex);
+                      setSelectedImageIndex(selectedImageIndex);
+                    }}
                   />
                 </div>
                 <div className="mt-6 hidden md:block">
                   <LightboxGallery
                     images={Products}
-                    currentIndex={0}
+                    currentIndex={selectedImageIndex}
                     onCloseRequest={closeLightbox}
                     openLightbox={openLightbox}
+                    selectedImageIndex={selectedImageIndex}
+                    setSelectedImageIndex={setSelectedImageIndex}
                     className=""
                   />
                 </div>

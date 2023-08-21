@@ -2,9 +2,19 @@ import React, { useState } from "react";
 import { FaAngleLeft, FaAngleRight, FaTimes } from "react-icons/fa";
 import "../index.css";
 
-const LightboxGallery = ({ images, currentIndex, onCloseRequest }) => {
+const LightboxGallery = ({
+  images,
+  currentIndex,
+  onCloseRequest,
+  selectedImageIndex,
+  setSelectedImageIndex,
+}) => {
   const [lightboxIndex, setLightboxIndex] = useState(currentIndex);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  const handleThumbnailClick = (index) => {
+    closeLightbox();
+  };
 
   const openLightbox = (index) => {
     setLightboxIndex(index);
@@ -27,13 +37,16 @@ const LightboxGallery = ({ images, currentIndex, onCloseRequest }) => {
 
   return (
     <>
-      <div className="grid grid-cols-4 gap-6 mt-4">
+      <div className="grid grid-cols-4 gap-6 mt-4 cursor-pointer">
         {images.map((image, index) => (
           <img
             key={index}
             src={image.thumbnail}
             alt={`Product ${index + 1}`}
-            onClick={() => openLightbox(index)}
+            onClick={() => {
+              openLightbox(index);
+              setSelectedImageIndex(index);
+            }}
             className={
               index === lightboxIndex
                 ? "border-2 border-[#CE651B] rounded-lg"
@@ -67,14 +80,14 @@ const LightboxGallery = ({ images, currentIndex, onCloseRequest }) => {
               <span className=" bg-white w-9 h-9 rounded-full absolute top-1/2 -right-4 flex items-center justify-center">
                 <FaAngleRight
                   size={16}
-                  className="text-[#9EA0A1] hover:text-[#CE651B] cursor-pointer "
+                  className="text-[#9EA0A1] hover:text-[#CE651B] cursor-pointer"
                   onClick={nextImage}
                 />
               </span>
             </div>
 
             <div className="flex justify-center items-center mt-6">
-              <div className="grid grid-cols-4 gap-6 w-4/5  ">
+              <div className="grid grid-cols-4 gap-6 w-4/5 cursor-pointer ">
                 {images.map((image, index) => (
                   <img
                     key={index}
