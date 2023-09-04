@@ -4,6 +4,7 @@ import { LightboxGallery } from "./components/lightbox";
 import { FaBars, FaMinus, FaPlus, FaTimes } from "react-icons/fa";
 import { BsCart2 } from "react-icons/bs";
 import CartModal from "./components/cartModal";
+import LightboxMobile from "./components/lightboxMobile";
 
 function AppMaketa() {
   const [isNavModal, setIsNavModal] = useState(false);
@@ -193,7 +194,7 @@ function AppMaketa() {
             <section className="flex w-full md:w-1/2 flex-col ">
               <div className="w-full md:w-4/5">
                 <div
-                  className="cursor-pointer"
+                  className="cursor-pointer hidden md:block"
                   // onClick={() => openLightbox(selectedImageIndex)}
                 >
                   <img
@@ -217,6 +218,17 @@ function AppMaketa() {
                     className=""
                   />
                 </div>
+                {lightboxOpen && (
+                  <div className="fixed top-0 left-0 w-full h-full md:hidden   justify-center items-center bg-black bg-opacity-75 z-10">
+                    <div className="open-lightbox">
+                      <LightboxMobile
+                        images={Products}
+                        lightboxIndex={lightboxIndex}
+                        closeLightbox={closeLightbox}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
             </section>
 
